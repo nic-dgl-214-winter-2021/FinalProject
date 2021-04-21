@@ -11,16 +11,10 @@ import FirebaseAuth
 
 class LogInViewController: UIViewController {
 
-    
     @IBOutlet weak var emailTextField: UITextField!
-    
-    
     @IBOutlet weak var passwordTextField: UITextField!
-    
     @IBOutlet weak var loginButton: UIButton!
-    
     @IBOutlet weak var backButton: UIButton!
-    
     @IBOutlet weak var errorLabel: UILabel!
     
     override func viewDidLoad() {
@@ -37,14 +31,12 @@ class LogInViewController: UIViewController {
         backButton.layer.borderColor = UIColor.white.cgColor
 
         hide()
-        // Do any additional setup after loading the view.
     }
     
+    //hide what?
     func hide() {
         errorLabel.alpha = 0
     }
-    
-
     
     @IBAction func loginTapped(_ sender: Any) {
         
@@ -52,11 +44,10 @@ class LogInViewController: UIViewController {
         
         func validateFields() -> String? {
             
-                if emailTextField.text == "" ||
-                    passwordTextField.text == "" {
-            
-                return "Error within text fields."
-        }
+            if emailTextField.text == "" ||
+                passwordTextField.text == "" {
+                    return "Error within text fields."
+            }
             return nil
         }
         
@@ -67,12 +58,12 @@ class LogInViewController: UIViewController {
         let password = passwordTextField.text!
         
         Auth.auth().signIn(withEmail: email, password: password) { (result, err) in
-            if err != nil {
+            if err != nil { //guard statement
                 self.errorLabel.text = "ERROR!"
                 self.errorLabel.alpha = 1
             }
             
-            else {
+            else { //Segue?
                 let homeViewController = self.storyboard?.instantiateViewController(identifier: Boards.Storyboard.homeViewController) as? HomeViewController
                   
                 self.view.window?.rootViewController = homeViewController
