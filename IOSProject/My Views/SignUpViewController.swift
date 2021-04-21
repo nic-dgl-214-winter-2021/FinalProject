@@ -18,9 +18,7 @@ class SignUpViewController: UIViewController {
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var signUpButton: UIButton!
     @IBOutlet weak var errorLabel: UILabel!
-    
     @IBOutlet weak var backButton: UIButton!
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,17 +41,6 @@ class SignUpViewController: UIViewController {
         errorLabel.alpha = 0
     }
     
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    // function to validate that the sign up form is correct. should return nil unless information is wrong then it should return a message into the error label.
     
     func validateFields() -> String? {
         
@@ -63,7 +50,7 @@ class SignUpViewController: UIViewController {
             passwordTextField.text == ""
             {
             return "Woah slow down there! Make sure all text fields have been filled in."
-    }
+        }
         return nil
     }
 
@@ -74,12 +61,13 @@ class SignUpViewController: UIViewController {
         
         let error = validateFields()
         
+        //Why a nested function?
         func uhOh (message: String) {
             
             errorLabel.text = message
             errorLabel.alpha = 1
         }
-        
+        //Guard statement?
         if error != nil {
           uhOh(message: error!)
         }
@@ -96,7 +84,7 @@ class SignUpViewController: UIViewController {
             let password = passwordTextField.text!
             
             Auth.auth().createUser(withEmail: email, password: password) { (result, err) in
-                
+                //What other checks happen here?
                 if err != nil {
                     uhOh(message: "Its not us, its you. please make sure your form is filled out correctly and submit again.")
                 }
@@ -105,28 +93,23 @@ class SignUpViewController: UIViewController {
                     let db = Firestore.firestore()
                     
                     db.collection("User").addDocument(data: ["firstname": firstname, "lastname": lastname, "uid": result!.user.uid]) { (error) in
-                        
+                        //Will this ever be seen?
                         if error != nil {
                             uhOh(message: "Something went wrong")
                         }
                     }
-                    
+                
                     self.goHome()
                 }
                 
             }
         }
-        // Create a user
-        
-        // Move user to home screen
     }
     
+    //Better handled via segue?
     func goHome() {
-        
-      let homeViewController = storyboard?.instantiateViewController(identifier: Boards.Storyboard.homeViewController) as? HomeViewController
-        
+        let homeViewController = storyboard?.instantiateViewController(identifier: Boards.Storyboard.homeViewController) as? HomeViewController
         view.window?.rootViewController = homeViewController
-        
         view.window?.makeKeyAndVisible()
     }
     
